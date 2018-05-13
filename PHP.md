@@ -73,3 +73,90 @@ class Basic implements Customer {
 The reason to use an interface is thfat you can only `extends` (abstract) from one class, but you can `implements` (interface) multiple instances at the same time.
 
 ---
+
+## Traits
+
+Traits are mechanisms that allow you to reuse code from multiple sources at the same time. Traits cannot be instantiated. They are containers of functionality that can be used from other classes.
+
+To define a trait:
+
+- define it like a class.
+- use keyword `trait`.
+- define its namespace.
+- declare its properties and implement its methods.
+
+Example of a trait:
+
+```php
+<?php
+
+namespace App\Utils;
+
+trait A {
+    public function getA(string $s) {
+        return 'A ' . $s;
+    }
+}
+
+?>
+```
+
+To use a trait in a class, add the `use` keyword inside the class, follow by the trait name. To refer to methods of a trait, use the `$this` keyword follow by the trait method's name. 
+
+Example of using a trait in a class:
+
+```php
+<?php
+
+use App\Utils\A;
+
+class B {
+    // Let the class know that its using the trait A
+    use A;
+
+    public string $B = 'B';
+
+    public function getAB() {
+        // Refer to trait A method using $this keyword.
+        return $this -> getA($this -> B);
+    }
+}
+
+?>
+```
+
+
+
+A complicated situation is where a class uses 2 traits that implements the same methods. You have to explicitly choose which trait's method the class is going to use. To choose the method you want to use, use the operator `insteadof`. To use the operator, state the trait name and the method, `Contract::sign`, followed by `insteadof` and the trait that you are rejecting for use, `Communicator`. The result is `Contract::sign insteadof Communicator;`, where the sign method of the trait `Contract` is use instead of `Communitor`'s. Optionally, use the keyword `as` to add an alias so that both methods could be use, `Communicator::sign as makeASign;`.
+
+Example of a class using 2 traits that implements the same method:
+
+```php
+<?php
+
+trait Contract {
+    public function sign() {
+        echo "Signing the contract.";
+    }
+}
+
+trait Communicator {
+    public function sign() {
+        echo "Signing to the waitress.";
+    }
+}
+
+class Manager {
+    use Contract, Communicator {
+        Contract::sign insteadof Communicator;
+        Communicator::sign as makeASign;
+}
+
+$manager = new Manager();
+$manager->sign(); // Signing the contract.
+$manager->makeASign(); // Signing to the waitress.
+
+?>
+```
+
+---
