@@ -288,3 +288,42 @@ class Config {
 ```
 
 ---
+
+## Anonymous functions
+
+Functions that are assign to a variable. Invoke the function by just calling the variable name:
+
+```php
+<?php
+
+// Assigning the anonymous function to a variable.
+$variable = function ($par1, $par2) {
+    // ...
+}
+
+// Invoking the function.
+$variable($arg1, $arg2);
+
+?>
+```
+
+### Benefits
+
+- What is the benefit of defining it in this way? One possible application would be to use it as a callable. A callable is a variable type that identifies a function that PHP can call. You send this callable variable as an argument, and the function that receives it can invoke it.
+- The function is defined inside a scope, and as soon as this scope ends, the function will no longer be accessible. 
+- inheriting variables from the parent scope. When you define an anonymous function, you can specify some variable from the scope where it is defined with the keyword `use`, and use it inside the function. The value of the variable will be the one it had at the moment of declaring the function, even if it is updated later.
+    ```php
+    <?php
+
+    $var1;
+
+    $variable = function ($par1, $par2) use ($var1) {
+        // ...
+    }
+
+    $variable($arg1, $arg2);
+
+    ?>
+    ```
+
+---
