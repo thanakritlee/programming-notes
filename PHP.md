@@ -249,3 +249,42 @@ catch (InvalidIdException $e) {
 ```
 
 ---
+
+## Design Pattern: Singleton
+
+The idea is simple: singletons are used when you want one class to always have one unique instance. Every time, and everywhere you use that class, it has to be through the same instance. The reason is to avoid having too many instances of some heavy resource, or to keep always the same state everywhere—to be global.
+
+Implementing a Singleton implies the following points:
+
+1. Make the constructor of the class private, so absolutely no one from outside the class can ever instantiate that class.
+2. Create a static property named `$instance`, which contain an instance of itself, the class itself.
+3. Create a static method, `getInstance`, which will check if `$instance` is `null`, if it is, it will create a new instancce using the private constructor. If it is not `null`, then return `$instance`, the existing instance of the class. Either way, it will return the `$instance` property.
+
+Example of a class implementing the Singleton design pattern:
+
+```php
+<?php
+
+class Config {
+    private static $instance;
+
+    private function __construct() {
+        // ...
+    }
+
+    public static function getInstance() {
+        if (self::$instance == null) {
+            self::$instance = new Config();
+        }
+        return self::$instance;
+    }
+
+    public function otherFunction() {
+        // ...
+    }
+}
+
+?>
+```
+
+---
