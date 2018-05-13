@@ -160,3 +160,92 @@ $manager->makeASign(); // Signing to the waitress.
 ```
 
 ---
+
+## Exceptions
+
+Exception template:
+
+```php
+<?php
+
+use Exception;
+
+try {
+    throw new Exception('Exception message.');
+}
+catch (Exception $e) {
+    echo $e -> getMessage();
+}
+finally {
+    echo "This block always run, no matter what.";
+}
+
+?>
+```
+
+You can make your own type of Exception as well, by extending from the base class `Exception`. The Exception class below takes a message (with default `null` value) and assign it to `$message`. Then it calls the constructor for the base class `Exception`, providing the argument `$message`.
+
+Custom Exception type are normally use to implement extra functions when constructed.
+
+Custome Exception template:
+
+```php
+<?php
+
+use Exception;
+
+class InvalidIdException extends Exception {
+    public function __construct($message = null) {
+        $message = $message ?: 'Invalid id provided.';
+        parent::__construct($message);
+    }
+}
+
+?>
+```
+
+The order of the catch statement matters. PHP will run the first catch statement that is true.
+
+The exmaple code below will run the InvalidIdException catch block:
+
+```php
+<?php
+
+use InvalidIdException;
+use Exception;
+
+try {
+    throw new InvalidIdException('Invalid id.');
+}
+catch (InvalidIdException $e) {
+    echo $e -> getMessage();
+}
+catch (Exception $e) {
+    echoe $e -> getMessage();
+}
+
+?>
+```
+
+The exmaple code below will run the Exception catch block, eventhough the type of Exception is `InvalidIdException`. This is because it `extends` from the base class `Exception`, making it an `Exception`.
+
+```php
+<?php
+
+use InvalidIdException;
+use Exception;
+
+try {
+    throw new InvalidIdException('Invalid id.');
+}
+catch (Exception $e) {
+    echoe $e -> getMessage();
+}
+catch (InvalidIdException $e) {
+    echo $e -> getMessage();
+}
+
+?>
+```
+
+---
