@@ -8,6 +8,17 @@ Database are made up of **schemas**.
 
 ---
 
+## Login
+
+Login to mysql client with username: `root` and password: `root`.
+
+```sh
+$ mysql -u root -p
+Enter password: root
+```
+
+---
+
 ## Data Types
 
 Number Data Types:
@@ -120,3 +131,75 @@ mysql> DESC fruit;
 ```
 
 ---
+
+## Keys
+
+Type of Keys:
+- Primary Key
+    - Identify unique row in a table.
+    - No same value in the table.
+    - Can't be `NULL`.
+    - Auto increment with `UNIQUE`.
+    - Example sales id.
+- Unique Key
+    - Field is not repeated in a table.
+    - Not auto incrementable.
+    - Can be `NULL`.
+    - Example, user can't have same email.
+- Foreign Key
+    - Defines and enforce a reference between a field in a table and a row of a different table.
+    - Define the key first, then foreign key reference it.
+    - Example: sales id and user id.
+- Index
+    - Use to speed up searching the database (filtering).
+    - An index can be used to efficiently find all rows matching some column in your query and then walk through only that subset of the table to find exact matches.
+    - Clustered, Non-Clustered
+    - Clustered - content of a phone book. (firstN, lastN)
+    - Non-Clustered - many references to data in the clustered index. (location)
+    - Too much indexing (**overindexing**) leads to slower query.
+    - All other key types are already indexed.
+
+---
+
+## Altering tables
+
+---
+
+## Inserting rows
+
+Inserting a single row into the table `tablename`:
+
+```SQL
+mysql> INSERT INTO tablename (field1, field2, fielde)
+    -> VALUES ("1", "2", "3");
+```
+
+
+Inserting multiple rows into the table `tablename`:
+
+```SQL
+mysql> INSERT INTO tablename (field1, field2, field3) VALUES
+    -> ("1", "2", "3"),
+    -> ("4", "5", "6"),
+    -> ("7", "8", "9");
+```
+
+---
+
+## Querying Data
+
+---
+
+## Joining
+
+[SQL JOIN explaination](http://www.sql-join.com/sql-join-types/)
+
+---
+
+## Set AUTO_INCREMENT
+
+```SQL
+mysql> ALTER TABLE tablename AUTO_INCREMENT = 4;
+```
+
+Can't set AUTO_INCREMENT to a id lower than the current highest id number.
