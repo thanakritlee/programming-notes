@@ -170,3 +170,40 @@ The administrator for your local Hyperledger Fabric is the Peer Administrator (o
 An ID card (or *card* for short) is a collection of files that contains all the information necessary to allow a participant to connect to a business network. The card is referred to as an *identity*. Before it can be used, it must be issued to the user, allowing him or her to be authenticated and autherised to use the network. Cards are a very handy way of keeping up with a password (called a *secret* in Hyperledger Composer terminology), you import the card into a collection of cards in the Hyperledger Fabric called a *wallet*. From that point on, you can just reference the card to authenticate that identity.
 
 The general form for specifying a card is: *userid@network*, where *userid* is the user's unique id, and the *network* is the network to which the user is authenticated.
+
+To handle the two levels of Hyperledger Composer security, you need a card for at least: (1) the PeerAdmin and (2) the business network admin.
+
+### PeerAdmin
+
+The *PeerAdmin* card is special ID card used to administer the local Hyperledger Fabric. In a development installation, such as the one on your computer, the PeerAdmin ID card is created when you install the local Hyperledger Fabric.
+
+The form for a *PeerAdmin* card for a Hyperledger Fabric v1.0 network is *PeerAdmin@hlfv1*.
+
+In general, the PeerAdmin is a special role reserved for functions such as:
+- Deploying business networks
+- Creating, issuing, and revoking ID cards for business network admins
+
+As a developer, in a production Hyperledger Fabric installation, you would not have access to the *PeerAdmin* card. Instead the Hyperledger Fabric administrator would deploy your business network, create ID cards, and so on. When developing and testing blockchain networks using your local Hyperledger Fabric, you will use the PeerAdmin ID card to perform these functions.
+
+### Business network admin
+
+When the PeerAdmin deploys your network to the Hyperledger Fabric, an ID card is issued to the business network administrator, and then this card is used whenever the business network adminstrator needs to do anything with the business network, such as using the Composer Command Line Interface (CLI).
+
+A general form of a business network admin card is *admin@network-name*.
+
+In general, the business network admin is a special role reserved for functions such as:
+- Updating the running business network
+- Querying the various registries (participant, identity, and so forth)
+- Creating, issuing, and revoking ID cards for participants in the business network.
+
+## Wallet and Business Network Cards
+
+Hyperledger Composer can only use business network cards that are placed into a wallet. The wallet is a directory on the file system that contains business network cards.
+
+```shell
+composer card import -f AdminName@network-name.card
+```
+
+```shell
+--file, -f The card file name  [string] [required]
+```
